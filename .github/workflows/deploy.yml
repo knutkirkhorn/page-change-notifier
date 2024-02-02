@@ -14,7 +14,8 @@ jobs:
             cd page-change-notifier
             git pull
             docker build -t page-change-notifier .
+            docker logs page-change-notifier >> page-change-notifier-logs.txt
             docker stop page-change-notifier
-            docker run -d --name page-change-notifier \
+            docker run -d --rm --name page-change-notifier \
               -v $(pwd)/data.db:/usr/src/app/data.db \
               page-change-notifier
