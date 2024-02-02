@@ -53,7 +53,6 @@ client.once(Events.ClientReady, async readyClient => {
 	console.log(`Ready! Logged in as ${readyClient.user.tag}`);
 
 	while (true) {
-		console.log('hello');
 		await checkPagesForChanges();
 		await setTimeout(10_000); // TODO: wait for 1 hour
 	}
