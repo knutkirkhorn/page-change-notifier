@@ -1,0 +1,20 @@
+name: deploy
+on: [push]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: pull changes, build docker image and restart container
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd page-change-notifier
+            git pull
+            docker build -t page-change-notifier .
+            docker stop page-change-notifier
+            docker run -d --name page-change-notifier \
+              -v $(pwd)/data.db:/usr/src/app/data.db \
+              page-change-notifier
