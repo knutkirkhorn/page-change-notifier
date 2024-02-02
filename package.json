@@ -1,0 +1,47 @@
+{
+	"private": true,
+	"name": "page-change-notifier",
+	"version": "1.0.0",
+	"description": "Get notified on Discord when a page changes",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"lint": "eslint .",
+		"format": "prettier --write ."
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/knutkirkhorn/page-change-notifier.git"
+	},
+	"keywords": [
+		"page",
+		"change",
+		"notifier",
+		"discord"
+	],
+	"author": "Knut Kirkhorn",
+	"type": "module",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/knutkirkhorn/page-change-notifier/issues"
+	},
+	"homepage": "https://github.com/knutkirkhorn/page-change-notifier#readme",
+	"dependencies": {
+		"discord.js": "^14.14.1",
+		"dotenv": "^16.4.1",
+		"got": "^14.1.0",
+		"knex": "^3.1.0",
+		"package-user-agent": "^2.0.0",
+		"sqlite3": "^5.1.7",
+		"zod": "^3.22.4"
+	},
+	"devDependencies": {
+		"@ianvs/prettier-plugin-sort-imports": "^4.1.1",
+		"eslint": "^8.56.0",
+		"eslint-config-airbnb-base": "^15.0.0",
+		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-import": "^2.29.1",
+		"eslint-plugin-unicorn": "^50.0.1",
+		"prettier": "^3.2.4"
+	}
+}
