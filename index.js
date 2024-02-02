@@ -15,6 +15,8 @@ import {
 } from './database.js';
 import {readCommandModules} from './util.js';
 
+const MILLISECONDS_IN_HOUR = 3_600_000;
+
 const client = new Client({intents: [GatewayIntentBits.Guilds]});
 
 async function getPageContent(url) {
@@ -54,7 +56,7 @@ client.once(Events.ClientReady, async readyClient => {
 
 	while (true) {
 		await checkPagesForChanges();
-		await setTimeout(10_000); // TODO: wait for 1 hour
+		await setTimeout(MILLISECONDS_IN_HOUR);
 	}
 });
 
