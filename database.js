@@ -46,7 +46,11 @@ export async function unwatchPage(url) {
 
 export async function getWatchingPages() {
 	const rows = await knexInstance(checkedTableName).select();
-	return rows.map(row => ({url: row.url, channelId: row.channel_id}));
+	return rows.map(row => ({
+		url: row.url,
+		channelId: row.channel_id,
+		lastChecked: row.last_checked,
+	}));
 }
 
 export async function insertInitialPageContent(pageId, content) {

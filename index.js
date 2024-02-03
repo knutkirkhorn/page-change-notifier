@@ -24,6 +24,13 @@ async function checkPagesForChanges() {
 	for (const page of watchingPages) {
 		console.log('Checking page:', page);
 
+		// Skip the page if it has been checked in the last hour
+		if (page.lastChecked > new Date(Date.now() - MILLISECONDS_IN_HOUR)) {
+			console.log('Skipping page, checked in last hour');
+			// eslint-disable-next-line no-continue
+			continue;
+		}
+
 		const pageContent = await getPageContent(page.url);
 
 		const hasChanged = await checkIfPageHasChanged(page.url, pageContent);
