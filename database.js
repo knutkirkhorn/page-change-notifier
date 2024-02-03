@@ -26,7 +26,17 @@ export async function checkAndCreateTable() {
 }
 
 export async function watchPage(url, channelId) {
-	await knexInstance(checkedTableName).insert({url, channel_id: channelId});
+	const pageId = await knexInstance(checkedTableName).insert({
+		url,
+		channel_id: channelId,
+	});
+
+	if (pageId.length === 0) {
+		// TODO: send discord message
+		throw new Error('Failed to start watching page');
+	}
+
+	return pageId[0];
 }
 
 export async function unwatchPage(url) {
@@ -37,6 +47,12 @@ export async function unwatchPage(url) {
 export async function getWatchingPages() {
 	const rows = await knexInstance(checkedTableName).select();
 	return rows.map(row => ({url: row.url, channelId: row.channel_id}));
+}
+
+export async function insertInitialPageContent(pageId, content) {
+	await knexInstance(checkedTableName)
+		.where({id: pageId})
+		.update({content, last_checked: new Date()});
 }
 
 export async function checkIfPageHasChanged(url, content) {

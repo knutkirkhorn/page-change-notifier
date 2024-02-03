@@ -1,3 +1,4 @@
+import got from 'got';
 import fs from 'node:fs';
 
 export async function readCommandModules() {
@@ -25,4 +26,10 @@ export async function readCommandModules() {
 	}
 
 	return commandModules;
+}
+
+export async function getPageContent(url) {
+	const response = await got(url);
+	const content = await response.body;
+	return content;
 }

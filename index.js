@@ -6,24 +6,17 @@ import {
 	Events,
 	GatewayIntentBits,
 } from 'discord.js';
-import got from 'got';
 import config from './config.js';
 import {
 	checkAndCreateTable,
 	checkIfPageHasChanged,
 	getWatchingPages,
 } from './database.js';
-import {readCommandModules} from './util.js';
+import {getPageContent, readCommandModules} from './util.js';
 
 const MILLISECONDS_IN_HOUR = 3_600_000;
 
 const client = new Client({intents: [GatewayIntentBits.Guilds]});
-
-async function getPageContent(url) {
-	const response = await got(url);
-	const content = await response.body;
-	return content;
-}
 
 async function checkPagesForChanges() {
 	const watchingPages = await getWatchingPages();
