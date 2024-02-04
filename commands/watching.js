@@ -1,4 +1,5 @@
 import {SlashCommandBuilder} from 'discord.js';
+import config from '../config.js';
 import {getWatchingPages} from '../database.js';
 
 export default {
@@ -9,9 +10,9 @@ export default {
 		const watchingPages = await getWatchingPages();
 
 		if (watchingPages.length === 0) {
-			// TODO: possible to link to clickable slash command here?
+			const watchCommand = `</watch:${config.commandWatchId}>`;
 			await interaction.reply(
-				'No pages are being watched. Use the `/watch` command to start watching a page for changes!',
+				`No pages are being watched. Use the ${watchCommand} command to start watching a page for changes!`,
 			);
 			return;
 		}
