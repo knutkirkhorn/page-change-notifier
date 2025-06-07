@@ -11,6 +11,7 @@ import {
 	checkAndCreateTable,
 	checkIfPageHasChanged,
 	getWatchingPages,
+	updateLastChecked,
 } from './database.js';
 import {getPageContent, readCommandModules} from './util.js';
 
@@ -30,7 +31,28 @@ async function checkPagesForChanges() {
 			continue;
 		}
 
-		const pageContent = await getPageContent(page.url);
+		const {data: pageContent, error} = await getPageContent(page.url);
+
+		if (error) {
+			console.error(`Error getting page content for ${page.url}:`, error);
+
+			const embedMessage = new EmbedBuilder()
+				.setTitle('Error getting page content')
+				.addFields({name: 'URL', value: page.url})
+				.addFields({name: 'Error', value: error.message})
+				.setColor('Red');
+
+			const channel = await client.channels.fetch(page.channelId);
+			if (channel) {
+				await channel.send({embeds: [embedMessage]});
+			} else {
+				console.error(`Channel with ID ${page.channelId} not found.`);
+			}
+
+			await updateLastChecked(page.url);
+
+			continue;
+		}
 
 		const hasChanged = await checkIfPageHasChanged(page.url, pageContent);
 		if (hasChanged) {

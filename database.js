@@ -77,3 +77,9 @@ export async function checkIfPageHasChanged(url, content) {
 		.update({last_checked: new Date()});
 	return false;
 }
+
+export async function updateLastChecked(url) {
+	await knexInstance(checkedTableName)
+		.where({url})
+		.update({last_checked: new Date()});
+}

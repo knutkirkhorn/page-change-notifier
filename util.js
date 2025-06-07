@@ -29,7 +29,10 @@ export async function readCommandModules() {
 }
 
 export async function getPageContent(url) {
-	const response = await got(url);
-	const content = await response.body;
-	return content;
+	try {
+		const response = await got(url);
+		return {data: response.body, error: undefined};
+	} catch (error) {
+		return {data: undefined, error};
+	}
 }
