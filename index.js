@@ -27,7 +27,6 @@ async function checkPagesForChanges() {
 		// Skip the page if it has been checked in the last hour
 		if (page.lastChecked > new Date(Date.now() - MILLISECONDS_IN_HOUR)) {
 			console.log('Skipping page, checked in last hour');
-			// eslint-disable-next-line no-continue
 			continue;
 		}
 

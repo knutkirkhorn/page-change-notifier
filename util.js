@@ -1,5 +1,6 @@
-import got from 'got';
+// eslint-disable-next-line unicorn/prevent-abbreviations
 import fs from 'node:fs';
+import got from 'got';
 
 export async function readCommandModules() {
 	const commandDirectorySubPaths = fs.readdirSync('./commands');
@@ -9,7 +10,6 @@ export async function readCommandModules() {
 		const commandsPath = `./commands/${filePath}`;
 
 		if (!filePath.endsWith('.js')) {
-			// eslint-disable-next-line no-continue
 			continue;
 		}
 
