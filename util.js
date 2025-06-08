@@ -1,6 +1,6 @@
 // eslint-disable-next-line unicorn/prevent-abbreviations
 import fs from 'node:fs';
-import got from 'got';
+import puppeteer from 'puppeteer';
 
 export async function readCommandModules() {
 	const commandDirectorySubPaths = fs.readdirSync('./commands');
@@ -29,10 +29,21 @@ export async function readCommandModules() {
 }
 
 export async function getPageContent(url) {
+	let browser;
 	try {
-		const response = await got(url);
-		return {data: response.body, error: undefined};
+		browser = await puppeteer.launch({
+			headless: 'new',
+			args: ['--no-sandbox', '--disable-setuid-sandbox'],
+		});
+		const page = await browser.newPage();
+		await page.goto(url, {waitUntil: 'networkidle0'});
+		const content = await page.content();
+		return {data: content, error: undefined};
 	} catch (error) {
 		return {data: undefined, error};
+	} finally {
+		if (browser) {
+			await browser.close();
+		}
 	}
 }
